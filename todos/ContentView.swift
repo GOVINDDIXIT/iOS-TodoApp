@@ -5,7 +5,7 @@
 //  Created by Govind Dixit on 07/11/20.
 //
 
-// userdefaults to store todo items
+// userDefaults to store todo items
 
 import SwiftUI
 
@@ -13,8 +13,7 @@ struct ContentView: View {
     @State private var newTodo = ""
     @State private var allTodos: [TodoItem] = []
     private let todosKey = "todosKey"
-    
-    
+
     var body: some View {
         NavigationView {
             VStack {
@@ -30,7 +29,7 @@ struct ContentView: View {
                         Image(systemName: "plus")
                     }.padding(.leading, 5)
                 }.padding()
-                
+
                 List {
                     ForEach(allTodos) {todoItem in
                         Text(todoItem.todo)
@@ -39,12 +38,12 @@ struct ContentView: View {
             }.navigationTitle("Todos")
         }.onAppear(perform:  loadTodos)
     }
-    
+
     private func deleteTodos(at offsets: IndexSet){
         self.allTodos.remove(atOffsets: offsets)
         saveTodos()
     }
-    
+
     private func loadTodos(){
         if let todosData = UserDefaults.standard.value(forKey: todosKey) as? Data {
             if let todosList = try? PropertyListDecoder().decode(Array<TodoItem>.self, from: todosData){
@@ -52,7 +51,7 @@ struct ContentView: View {
             }
         }
     }
-    
+
     private func saveTodos(){
         UserDefaults.standard.setValue(try? PropertyListEncoder().encode(self.allTodos), forKey: todosKey)
     }
